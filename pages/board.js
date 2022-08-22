@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/Layout'
 import styles from '../styles/Board.module.scss'
+import Piece from '../components/Piece'
 
 const Board = () => {
 
@@ -21,7 +22,7 @@ const Board = () => {
       case 1:
       case 6:
         // Renders pawns
-        return <h1 className={styles.piece}> . </h1>
+        return <Piece xpos={rIndex +1} ypos={cIndex +1}/>
         // Pawn.new(rIndex, cIndex)
       case 0:
       case 7:
