@@ -43,31 +43,7 @@ const Board = () => {
   }
 
   const renderPieces = (rIndex, cIndex) => {
-    switch (rIndex) {
-      case 1:
-      case 6:
-        // Renders pawns
-        return <Piece xpos={rIndex +1} ypos={cIndex +1}/>
-        // Pawn.new(rIndex, cIndex)
-      case 0:
-      case 7:
-        // Renders special pieces
-        switch (cIndex){
-          case 0:
-          case 7:
-            return "♖"
-          case 1:
-          case 6:
-            return "♘"
-          case 2:
-          case 5:
-            return "♗"
-          case 3:
-            return "♕"
-          case 4:
-            return "♔"
-        }
-    }
+
   }
 
   return (
@@ -85,9 +61,7 @@ const Board = () => {
               {columns.map((column, cIndex) => {
                 return (
                   <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex+1, cIndex+1]}>
-                    <p onClick={handleClick}
-                    position={[cIndex+1,rIndex+1]}
-                    className={pieceColorLogic(rIndex) ? styles.whitePiece : styles.blackPiece}> {renderPieces(rIndex, cIndex)} </p>
+                    <Piece xpos={rIndex} ypos={cIndex}/>
                   </div>
                 )
               })}
