@@ -16,6 +16,20 @@ const Board = () => {
     }
   }
 
+  const renderPieces = (rIndex, cIndex) => {
+    switch (rIndex) {
+      case 1:
+      case 6:
+        // Renders pawns
+        return <h1 className={styles.piece}> . </h1>
+        // Pawn.new(rIndex, cIndex)
+      case 0:
+      case 7:
+        // Renders special pieces
+        return <h1 className={styles.specPiece}> . </h1>
+    }
+  }
+
   return (
     <Layout>
       <Head>
@@ -30,7 +44,7 @@ const Board = () => {
               {columns.map((column, cIndex) => {
                 return (
                   <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex+1, cIndex+1]}>
-                    {[0,1,6,7].includes(rIndex) ? <h1 className={styles.piece}> . </h1> : null }
+                    {renderPieces(rIndex, cIndex)}
                   </div>
                 )
               })}
