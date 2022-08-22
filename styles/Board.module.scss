@@ -1,4 +1,5 @@
-$tile-color: black;
+$tile-dark-color: #769656;
+$tile-light-color: #eeeed2;
 $bevel-color: grey;
 
 
@@ -22,18 +23,21 @@ $bevel-color: grey;
   align-items: center;
   width: 12vh;
   height: 12vh;
+  background-color: $tile-light-color;
   // outline: 1px solid black;
 }
 
 .coloredTile {
   @extend .tile;
-  background-color: $tile-color;
+  background-color: $tile-dark-color;
 }
 
-.piece{
-  color: red;
+.whitePiece{
+  color: white;
+  font-size: 5rem;
 }
 
-.specPiece{
-  color: blue;
+.blackPiece{
+  color: black;
+  font-size: 5rem;
 }
