@@ -12,9 +12,9 @@
 
 ### Chess Board
 - Rendering: 
-  - Render 8x8 board
-  - Alternating black and white tiles
-  - Bevel / border for the board
+  - ~~Render 8x8 board~~
+  - ~~Alternating black and white tiles~~
+  - ~~Bevel / border for the board~~
 
 - Gameplay:
   - Each tile has a coordinate value
@@ -25,12 +25,12 @@
 
 ### Chess pieces
 - Base piece class:
-  - Renders to the board
+  - ~~Renders to the board~~
   - Has a position
   - Can be clicked / dragged
 
 - Specific piece classes
-  - Renders the specific piece
+  - ~~Renders the specific piece~~
   - Has data on the rules with how pieces move
   - For KING / ROOK : has rules for Castling
 

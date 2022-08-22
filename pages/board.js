@@ -1,11 +1,22 @@
 import Head from 'next/head'
 import Layout from '../components/Layout'
 import styles from '../styles/Board.module.scss'
+import {P1Timer, P2Timer} from '../components/Timer'
+import { useState } from 'react'
 
 const Board = () => {
 
   const rows = [...Array(8)]
   const columns = [...Array(8)]
+
+  const [turn, setTurn] = useState(true)
+
+  // EVENT LISTENERS
+
+  const handleClick = () => {
+    setTurn(!turn)
+    // console.log(turn)
+  }
 
   // RENDERING LOGIC
 
@@ -62,7 +73,8 @@ const Board = () => {
         <title>Chess Board</title>
         <meta name="description" content="game-page" />
       </Head>
-
+      <P1Timer turn={turn}/>
+      <P2Timer />
       <div className={styles.board}>
         {rows.map((row, rIndex) => {
           return (
@@ -70,7 +82,9 @@ const Board = () => {
               {columns.map((column, cIndex) => {
                 return (
                   <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex+1, cIndex+1]}>
-                    <p className={pieceColorLogic(rIndex) ? styles.whitePiece : styles.blackPiece}> {renderPieces(rIndex, cIndex)} </p>
+                    <p onClick={handleClick}
+                    position={[cIndex+1,rIndex+1]}
+                    className={pieceColorLogic(rIndex) ? styles.whitePiece : styles.blackPiece}> {renderPieces(rIndex, cIndex)} </p>
                   </div>
                 )
               })}
