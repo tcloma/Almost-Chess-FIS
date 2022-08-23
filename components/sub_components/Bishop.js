@@ -1,6 +1,6 @@
 import React from "react"
 
-const Bishop = () => {
+const Bishop = ({xpos, ypos}) => {
 
    const bishopMoves = () => {
       // onClick it will highlight the box of the piece then show the possible movements
@@ -11,7 +11,7 @@ const Bishop = () => {
 
    }
    return (
-      <div></div>
+      <p> Bishop </p>
    )
 }
 
