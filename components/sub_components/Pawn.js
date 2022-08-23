@@ -2,27 +2,31 @@ import React from "react"
 
 const Pawn = (props) => {
   const { xpos, ypos, validMoves, setValidMoves } = props
+  // Change to let for debugging
+
+  // ypos = 3
 
   // HELPER LOGIC FUNCTIONS
-  const withinBounds = (xpos) => {
+  const withinBounds = (ypos) => {
     const boundaries = [1, 8]
-    return !boundaries.includes(xpos)
+    return !boundaries.includes(ypos)
   }
 
-  const inStartingPos = (xpos) => {
-    return xpos == 2 || xpos == 6
+  const inStartingPos = (ypos) => {
+    return ypos == 2 || ypos == 6
   }
 
   // VALID MOVE CHECK
   const pieceMoves = () => {
-    if (withinBounds(xpos) && inStartingPos(xpos)) {
-      return [[xpos + 1, ypos], [xpos + 2, ypos]]
+    if (withinBounds(ypos) && inStartingPos(ypos)) {
+      return [[xpos, ypos + 1], [xpos, ypos + 2]]
     }
-    else if (withinBounds(xpos)) {
-      return [[xpos + 1, ypos]]
+    else if (withinBounds(ypos)) {
+      return [[xpos, ypos + 1]]
     }
     else {
-      return "Can not move piece outside of boundary"
+      console.log('Your piece is on a boundary')
+      return [[xpos, ypos + 1]]
     }
   }
 

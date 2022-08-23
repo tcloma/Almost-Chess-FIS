@@ -2,6 +2,10 @@ import React from 'react'
 
 const Rook = (props) => {
   const { xpos, ypos, validMoves, setValidMoves } = props
+  // Change to let for debugging
+
+  // xpos = 4
+  // ypos = 7
 
   // HELPER LOGIC FUNCTIONS 
   const withinBounds = (pos) => {

@@ -73,8 +73,8 @@ const Board = () => {
                 return (
                   <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex + 1, cIndex + 1]}>
                     <Piece
-                      xpos={rIndex+1}
-                      ypos={cIndex+1}
+                      xpos={cIndex+1}
+                      ypos={rIndex+1}
                       validMoves={validMoves}
                       setValidMoves={setValidMoves}
                     />

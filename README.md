@@ -47,6 +47,8 @@
   - Capturing
   - Check / Checkmate
   - Castling
+  - Pawn promotes when it reaches the end
+  - En passant
 
 <br>
 
