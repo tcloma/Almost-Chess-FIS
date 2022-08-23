@@ -1,9 +1,7 @@
 import React from "react"
 
 const Pawn = (props) => {
-  let { xpos, ypos, validMoves, setValidMoves } = props
-
-  xpos = 8
+  const { xpos, ypos, validMoves, setValidMoves } = props
 
   // HELPER LOGIC FUNCTIONS
   const withinBounds = (xpos) => {

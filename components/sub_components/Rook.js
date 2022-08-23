@@ -1,11 +1,7 @@
 import React from 'react'
 
 const Rook = (props) => {
-  let { xpos, ypos, validMoves, setValidMoves } = props
-
-  xpos = 7
-  ypos = 3
-
+  const { xpos, ypos, validMoves, setValidMoves } = props
 
   // HELPER LOGIC FUNCTIONS 
   const withinBounds = (pos) => {
@@ -34,6 +30,8 @@ const Rook = (props) => {
           return bound == 'max' ? [xpos, ypos + index + 1] : [xpos, ypos - (index + 1)]
       }
     }
+
+    // allMoves.push([xpos + index + 1, ypos])
 
     // PUSH VALID MOVES TO AN ARRAY
     maxBound(pos).forEach((square, index) => {
