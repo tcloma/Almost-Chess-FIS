@@ -2,56 +2,55 @@ import React from "react"
 
 const Bishop = (props) => {
 
-  let { xpos, ypos, validMoves, setValidMoves } = props
+  const { xpos, ypos, validMoves, setValidMoves } = props
 
-  xpos = 6
-  ypos = 8
-
-  
-  const oddOrEven = (pos1, pos2) => {
-    if ((pos1 % 2 == 0 && pos2 % 2 == 0) || (pos1 % 2 != 0 && pos2 % 2 != 0)) {
-      return 2
-    } else {
-      return 1
-    }
-  }
-  const counter = oddOrEven(xpos, ypos)
+  // xpos = 4
+  // ypos = 4
 
   // HELPER LOGIC FUNCTIONS
-  const diagBoundary = (xpos, ypos) => {
-    // Create an array that starts with 1 value
-    // For every value whole digit that both the x and y pos meet,
-    // Add 2 to the array that will be itirated over
-
-    const biggerNum = xpos > ypos ? xpos : ypos
-    const diff = Math.abs(xpos - ypos)
-
-    for (let i = 1; i < biggerNum - diff; i++) {
-      counter += 2
-      console.log('Add 2', counter)
-      if (counter > 8) {
-        counter -= 2
-        console.log('Subtract 2', counter)
+  const diagRight = (xpos, ypos) => {
+    const allMoves = []
+    for (let i = 1; i < 8; i++) {
+      if (xpos + i <= 8 && ypos + i <= 8) {
+        allMoves.push([xpos + i, ypos + i])
       }
     }
 
-    return [...Array(counter)].length
+    for (let i = 1; i < xpos; i++) {
+      if (xpos - i > 0 && ypos - i > 0)
+        allMoves.push([xpos - i, ypos - i])
+    }
+
+    return allMoves
+  }
+
+  const diagLeft = (xpos, ypos) => {
+    const allMoves = []
+    for (let i = 1; i < 8; i++) {
+      if (xpos - i > 0 && ypos + i <= 8) {
+        allMoves.push([xpos - i, ypos + i])
+      }
+
+    }
+    for (let i = 1; i < xpos; i++) {
+      if (xpos + i <= 8 && ypos - i > 0)
+        allMoves.push([xpos + i, ypos - i])
+    }
+
+    return allMoves
   }
 
 
   const pieceMoves = () => {
-    const allMoves = []
 
-    diagBoundary(xpos, ypos).forEach((square, index) => {
-      console.log('a')
-    })
+    return diagRight(xpos, ypos).concat(diagLeft(xpos, ypos))
 
   }
 
   const handleClick = () => {
     console.log("Current pos:", [xpos, ypos])
-    console.log(diagBoundary(xpos, ypos))
-    // setValidMoves(pieceMoves())
+    // console.log(pieceMoves(xpos, ypos))
+    setValidMoves(pieceMoves(xpos,ypos))
   }
 
   return (
