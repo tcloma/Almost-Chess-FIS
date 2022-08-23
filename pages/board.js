@@ -67,10 +67,7 @@ const Board = () => {
               {columns.map((column, cIndex) => {
                 return (
                   <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex + 1, cIndex + 1]}>
-                    <p onClick={handleClick}
-                      position={[cIndex + 1, rIndex + 1]}
-                      className={pieceColorLogic(rIndex) ? styles.whitePiece : styles.blackPiece}> {renderPieces(rIndex, cIndex)} </p>
-                  <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex+1, cIndex+1]}>
+                    <Piece xpos={rIndex} ypos={cIndex} handleClick={handleClick} />
                   </div>
                 )
               })}
