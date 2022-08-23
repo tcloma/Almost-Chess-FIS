@@ -9,13 +9,10 @@ const Board = () => {
   const rows = [...Array(8)]
   const columns = [...Array(8)]
 
-  const [turn, setTurn] = useState(true)
-
   // EVENT LISTENERS
 
   const handleClick = () => {
-    setTurn(!turn)
-    // console.log(turn)
+
   }
 
   // RENDERING LOGIC
@@ -73,7 +70,7 @@ const Board = () => {
         <title>Chess Board</title>
         <meta name="description" content="game-page" />
       </Head>
-      <P1Timer turn={turn}/>
+      <P1Timer/>
       <P2Timer />
       <div className={styles.board}>
         {rows.map((row, rIndex) => {

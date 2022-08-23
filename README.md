@@ -24,15 +24,29 @@
 <br>
 
 ### Chess pieces
-- Base piece class:
+- Base piece component:
   - ~~Renders to the board~~
-  - Has a position
-  - Can be clicked / dragged
+  - ~~Has a position~~
+  - ~~Can be clicked~~ / dragged
 
-- Specific piece classes
+- Specific piece component
   - ~~Renders the specific piece~~
-  - Has data on the rules with how pieces move
-  - For KING / ROOK : has rules for Castling
+  - Has rules on how pieces move
+    - Define board boundaries
+    - Increment the position in a specific way until a boundary is met
+    - Check if there is another piece in the path of the move
+      - If it is an ally piece, you are blocked from going futher
+      - If it is an enemy piece, you are also blocked but you have the choice to capture the piece
+  - For PAWN:
+    - If in starting row, can move one or two spaces
+    - Can move diagonally only if it's a capture
+  - For KNIGHT:
+    - Only constriction is boundary
+
+- Next:
+  - Capturing
+  - Check / Checkmate
+  - Castling
 
 <br>
 
@@ -51,6 +65,6 @@
 <br>
 
 ### Pregame Screen
-- Options to alter the apperance of the game boad & pieces
+- Options to alter the apperance of the game board & pieces
 - Be able to select from different timer styles
-- Some other fun shit
+- Some other fun shit (maybe have checkers)

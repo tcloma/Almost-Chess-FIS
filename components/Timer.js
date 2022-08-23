@@ -1,18 +1,12 @@
 import styles from '../styles/timer.module.scss'
 import { useTimer } from 'use-timer'
-import { useEffect } from 'react'
 
-const P1Timer = ({ turn }) => {
+const P1Timer = () => {
   const { time, start, pause, reset, status } = useTimer({
     initialTime: 100,
     timerType: 'DECREMENTAL',
     // autostart: true
   })
-
-  useEffect(() => {
-    {start}
-    console.log(time)
-  },[status, turn])
 
   return (
     <div className={styles.timer}>
