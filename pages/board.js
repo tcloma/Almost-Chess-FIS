@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/Layout'
 import styles from '../styles/Board.module.scss'
-import {P1Timer, P2Timer} from '../components/Timer'
+import { P1Timer, P2Timer } from '../components/Timer'
 import { useState } from 'react'
 
 const Board = () => {
@@ -9,10 +9,22 @@ const Board = () => {
   const rows = [...Array(8)]
   const columns = [...Array(8)]
 
+  const [turn, setTurn] = useState('')
+
   // EVENT LISTENERS
 
   const handleClick = () => {
-
+    switch (turn) {
+      case '':
+        setTurn('white')
+        break;
+      case 'white':
+        setTurn('black')
+        break;
+      case 'black':
+        setTurn('white')
+        break;
+    }
   }
 
   // RENDERING LOGIC
@@ -42,11 +54,11 @@ const Board = () => {
       case 1:
       case 6:
         // Renders pawns
-        return  "♙"
+        return "♙"
       case 0:
       case 7:
         // Renders special pieces
-        switch (cIndex){
+        switch (cIndex) {
           case 0:
           case 7:
             return "♖"
@@ -70,18 +82,18 @@ const Board = () => {
         <title>Chess Board</title>
         <meta name="description" content="game-page" />
       </Head>
-      <P1Timer/>
-      <P2Timer />
+      <P1Timer turn={turn} />
+      <P2Timer turn={turn} />
       <div className={styles.board}>
         {rows.map((row, rIndex) => {
           return (
-            <div className={styles.row} key={rIndex} row={rIndex+1}>
+            <div className={styles.row} key={rIndex} row={rIndex + 1}>
               {columns.map((column, cIndex) => {
                 return (
-                  <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex+1, cIndex+1]}>
+                  <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex + 1, cIndex + 1]}>
                     <p onClick={handleClick}
-                    position={[cIndex+1,rIndex+1]}
-                    className={pieceColorLogic(rIndex) ? styles.whitePiece : styles.blackPiece}> {renderPieces(rIndex, cIndex)} </p>
+                      position={[cIndex + 1, rIndex + 1]}
+                      className={pieceColorLogic(rIndex) ? styles.whitePiece : styles.blackPiece}> {renderPieces(rIndex, cIndex)} </p>
                   </div>
                 )
               })}
