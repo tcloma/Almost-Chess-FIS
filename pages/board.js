@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 import styles from '../styles/Board.module.scss'
 import Piece from '../components/Piece'
 import { P1Timer, P2Timer } from '../components/Timer'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 
 const Board = () => {
@@ -12,6 +12,7 @@ const Board = () => {
   const columns = [...Array(8)]
 
   const [turn, setTurn] = useState('')
+  const [validMoves, setValidMoves] = useState([])
 
   // EVENT LISTENERS
 
@@ -28,6 +29,10 @@ const Board = () => {
         break;
     }
   }
+
+  useEffect(() => {
+    console.log("Valid Moves:", validMoves)
+  }, [validMoves])
 
   // RENDERING LOGIC
 
@@ -67,7 +72,12 @@ const Board = () => {
               {columns.map((column, cIndex) => {
                 return (
                   <div className={tileColorLogic(cIndex, rIndex)} key={cIndex} coordinate={[rIndex + 1, cIndex + 1]}>
-                    <Piece xpos={rIndex} ypos={cIndex} handleClick={handleClick} />
+                    <Piece
+                      xpos={rIndex+1}
+                      ypos={cIndex+1}
+                      validMoves={validMoves}
+                      setValidMoves={setValidMoves}
+                    />
                   </div>
                 )
               })}
