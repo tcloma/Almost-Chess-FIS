@@ -24,7 +24,7 @@ const Queen = ({xpos, ypos}) => {
       }
    }
 
-   console.log('checkXMoves' , checkXMoves())
+   // console.log('checkXMoves' , checkXMoves())
 
    //                **************** Y - AXIS ******************
 
@@ -35,7 +35,7 @@ const Queen = ({xpos, ypos}) => {
       }
    }
 
-      console.log('checkYMoves' , checkYMoves())
+      // console.log('checkYMoves' , checkYMoves())
 
 
    //          ************** COMBINING X AND Y AXIS *********************
