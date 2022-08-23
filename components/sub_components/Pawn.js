@@ -1,25 +1,48 @@
 import React from "react"
 
-const Pawn = ({xpos, ypos}) => {
-   // const initialMovement = () => {
-   //    // if the pawn is in starting position then it can move 1 or two spaces up
-   //    if (xposition == '' && yposition == '' ) {
-   //       // you can only move going up
-   //       // either to go up one or to go up two spaces (only row 3 or row 4)
-   //          // onClick it will show the posible movements 
-   //       // else you can't move it there   
-   //    }
-   // }
-   // const pawnMoves = () => {
-   //    // once pawn does initialMovement this is the only movement it can do
-   // }
-   const movePawn = ((e) => {
-      e.preventDefault()
-      
-   })
-   return (
-      <p onClick={movePawn}> {xpos} x {ypos}</p>
-   )
+
+const Pawn = (props) => {
+  const { xpos, ypos, validMoves, setValidMoves } = props
+  // Change to let for debugging
+
+  // ypos = 3
+
+  // HELPER LOGIC FUNCTIONS
+  const withinBounds = (ypos) => {
+    const boundaries = [1, 8]
+    return !boundaries.includes(ypos)
+  }
+
+  const inStartingPos = (ypos) => {
+    return ypos == 2 || ypos == 6
+  }
+
+  // VALID MOVE CHECK
+  const pieceMoves = () => {
+    if (withinBounds(ypos) && inStartingPos(ypos)) {
+      return [[xpos, ypos + 1], [xpos, ypos + 2]]
+    }
+    else if (withinBounds(ypos)) {
+      return [[xpos, ypos + 1]]
+    }
+    else {
+      console.log('Your piece is on a boundary')
+      return [[xpos, ypos + 1]]
+    }
+  }
+
+  // Return format:
+  // [[1,2],[2,2],[3,3]]
+
+  // SEND VALID MOVES BACK TO BOARD
+  const handleClick = () => {
+    console.log("Current pos:", [xpos, ypos])
+    setValidMoves(pieceMoves())
+  }
+
+  return (
+    <p onClick={handleClick}> P </p>
+  )
 }
 
 export default Pawn
