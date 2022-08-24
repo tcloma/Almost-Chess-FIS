@@ -1,7 +1,7 @@
 import React from "react"
 
 const Pawn = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves } = props
+  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
   // Change to let for debugging
 
   // ypos = 3
@@ -37,6 +37,7 @@ const Pawn = (props) => {
   const handleClick = () => {
     console.log("Current pos Pawn:", [xpos, ypos])
     setValidMoves(pieceMoves())
+    setSelectedPiece([xpos,ypos])
   }
 
   return (

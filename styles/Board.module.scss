@@ -1,7 +1,8 @@
 $tile-dark-color: #769656;
 $tile-light-color: #eeeed2;
+$highlight-dark: red;
+$highlight-light: pink;
 $bevel-color: grey;
-
 
 .board {
   border: 8px solid $bevel-color;
@@ -40,4 +41,12 @@ $bevel-color: grey;
 .blackPiece{
   color: black;
   font-size: 5rem;
+}
+
+.highlighted{
+  background-color: $highlight-dark;
+}
+
+.highlightedLight{
+  background-color: $highlight-light;
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Rook = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves } = props
+  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
   // Change to let for debugging
 
   // xpos = 4
@@ -53,6 +53,7 @@ const Rook = (props) => {
   const handleClick = () => {
     console.log("Current pos Rook:", [xpos, ypos])
     setValidMoves(pieceMoves())
+    setSelectedPiece([xpos,ypos])
   }
 
   return (

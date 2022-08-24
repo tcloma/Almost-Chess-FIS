@@ -2,7 +2,7 @@ import React from "react"
 
 const Bishop = (props) => {
 
-  const { xpos, ypos, validMoves, setValidMoves } = props
+  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
 
   // xpos = 4
   // ypos = 4
@@ -57,10 +57,12 @@ const Bishop = (props) => {
   const handleClick = () => {
     console.log("Current pos Bishop:", [xpos, ypos])
     setValidMoves(pieceMoves())
+    setSelectedPiece([xpos,ypos])
   }
 
   return (
     <p onClick={handleClick}> Bishop </p>
+
   )
 }
 

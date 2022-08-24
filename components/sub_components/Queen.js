@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Queen = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves } = props
+  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
 
   const maxDiagBound = (i, xpos, ypos, direction) => {
     return direction == 'right' ?
@@ -91,6 +91,7 @@ const Queen = (props) => {
   const handleClick = () => {
     console.log("Current pos Queen:", [xpos, ypos])
     setValidMoves(pieceMoves())
+    setSelectedPiece([xpos,ypos])
   }
 
   return (
