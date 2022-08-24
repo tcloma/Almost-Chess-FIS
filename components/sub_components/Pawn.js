@@ -1,5 +1,6 @@
 import React from "react"
 
+
 const Pawn = (props) => {
   const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
   // Change to let for debugging
