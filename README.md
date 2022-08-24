@@ -31,14 +31,14 @@
 
 - Specific piece component
   - ~~Renders the specific piece~~
-  - Has rules on how pieces move
-    - Define board boundaries
-    - Increment the position in a specific way until a boundary is met
+  - ~~Has rules on how pieces move~~
+    - ~~Define board boundaries~~
+    - ~~Increment the position in a specific way until a boundary is met~~
     - Check if there is another piece in the path of the move
       - If it is an ally piece, you are blocked from going futher
       - If it is an enemy piece, you are also blocked but you have the choice to capture the piece
   - For PAWN:
-    - If in starting row, can move one or two spaces
+    - ~~If in starting row, can move one or two spaces~~
     - Can move diagonally only if it's a capture
   - For KNIGHT:
     - Only constriction is boundary
@@ -53,7 +53,7 @@
 <br>
 
 ### Turn system & Timer
-- Individual timers for each player
+- ~~Individual timers for each player~~
 - Timer decrements constantly during a given players TURN
 - Performing a move will end the current player's turn and will start the other player's turn
 - **(Look into different timer formats commonly used in chess)**

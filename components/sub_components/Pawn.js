@@ -35,7 +35,7 @@ const Pawn = (props) => {
 
   // SEND VALID MOVES BACK TO BOARD
   const handleClick = () => {
-    console.log("Current pos:", [xpos, ypos])
+    console.log("Current pos Pawn:", [xpos, ypos])
     setValidMoves(pieceMoves())
   }
 
