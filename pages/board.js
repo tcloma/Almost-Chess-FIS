@@ -30,8 +30,6 @@ const Board = () => {
     }
   }
 
-  const movelog = [...validMoves]
-
   // RENDERING LOGIC
 
   const tileColorLogic = (cIndex, rIndex) => {
