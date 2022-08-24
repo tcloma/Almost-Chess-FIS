@@ -7,61 +7,51 @@ const Rook = (props) => {
   // xpos = 4
   // ypos = 7
 
-  // HELPER LOGIC FUNCTIONS 
-  const withinBounds = (pos) => {
-    const boundaries = [1, 8]
-    return !boundaries.includes(pos)
-  }
-
-  // DEFINING BOUNDARIES
-  const maxBound = (pos) => {
-    return [...Array(8 - pos)]
-  }
-  const minBound = (pos) => {
-    return [...Array((1 - pos) * -1)]
-  }
-
   // ITIRATING TO BOUNDARIES
-  const toBoundaries = (pos, axis) => {
+  const vhBoundaries = (pos, axis) => {
     const allMoves = []
 
+    // DEFINING BOUNDARIES
+    const maxBound = (pos) => {
+      return 8 - pos
+    }
+    const minBound = (pos) => {
+      return Math.abs(1 - pos)
+    }
+
     // CHECKS IF X AXIS OR Y AXIS IS PASSED AS PARAMETER
-    const itirateToBound = (index, bound) => {
+    const itirationParam = (index, bound) => {
       switch (axis) {
         case 'x':
-          return bound == 'max' ? [xpos + index + 1, ypos] : [xpos - (index + 1), ypos]
+          return bound == 'max' ?
+            [xpos + index + 1, ypos] :
+            [xpos - (index + 1), ypos]
         case 'y':
-          return bound == 'max' ? [xpos, ypos + index + 1] : [xpos, ypos - (index + 1)]
+          return bound == 'max' ?
+            [xpos, ypos + index + 1] :
+            [xpos, ypos - (index + 1)]
       }
     }
 
-    // allMoves.push([xpos + index + 1, ypos])
-
     // PUSH VALID MOVES TO AN ARRAY
-    maxBound(pos).forEach((square, index) => {
-      allMoves.push(itirateToBound(index, 'max'))
-    })
-    minBound(pos).forEach((square, index) => {
-      allMoves.push(itirateToBound(index, 'min'))
-    })
+    for (let i = 0; i < maxBound(pos); i++) {
+      allMoves.push(itirationParam(i, 'max'))
+    }
+    for (let i = 0; i < minBound(pos); i++) {
+      allMoves.push(itirationParam(i, 'min'))
+    }
 
     // RETURN COMPLETE ARRAY
     return allMoves
   }
 
   const pieceMoves = () => {
-    if (withinBounds(xpos) && withinBounds(ypos)){
-      return toBoundaries(xpos, 'x').concat(toBoundaries(ypos, 'y'))
-    }
-    else{
-      console.log('You are on a boundary')
-      return toBoundaries(xpos, 'x').concat(toBoundaries(ypos, 'y'))
-    }
+    return [...vhBoundaries(xpos, 'x'),...vhBoundaries(ypos, 'y')]
   }
 
   // SEND VALID MOVES BACK TO BOARD
   const handleClick = () => {
-    console.log("Current pos:", [xpos, ypos])
+    console.log("Current pos Rook:", [xpos, ypos])
     setValidMoves(pieceMoves())
   }
 

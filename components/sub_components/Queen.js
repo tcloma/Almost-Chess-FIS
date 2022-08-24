@@ -1,56 +1,98 @@
-import React , {useState} from 'react'
+import React, { useState } from 'react'
 
-const Queen = ({xpos, ypos}) => {
-   const[queenMoves, setQueenMoves] = useState([xpos + 1, ypos + 1])
+const Queen = (props) => {
+   const { xpos, ypos, validMoves, setValidMoves } = props
 
-   console.log('queenMoves',queenMoves)
-
-   //                       ********** X - AXIS *****************
-   // 1.
-   // create the boundaries 
-   // this array shows all my possible xMovements [ 1 ... 8]
-   const bound = Array.from({length: 8} , (_,i) => i +1)
-   // console.log('xBound',xBound)
-
-   // 2.
-   // I want to check where I am on the board
-   // if I am on x = 3 
-   // then I can move to rows [ 1, 2, 4, 5, 6, 7, 8]
-   // if you're on 3, it's going to return the same array without where you are
-   const checkXMoves = () => {
-      if (bound.includes(xpos)) {
-         // return a new array without that specified number
-         return bound.filter(e => e !== xpos)
-      }
+   const maxDiagBound = (i, xpos, ypos, direction) => {
+      return direction == 'right' ?
+         xpos + i <= 8 && ypos + i <= 8 :
+         xpos - i > 0 && ypos + i <= 8
+   }
+   const minDiagBound = (i, xpos, ypos, direction) => {
+      return direction == 'right' ?
+         xpos - i > 0 && ypos - i > 0 :
+         xpos + i <= 8 && ypos - i > 0
    }
 
-   // console.log('checkXMoves' , checkXMoves())
+   // ITIRATING TO BOUNDARIES
+   const diagBound = (xpos, ypos, direction) => {
+      const allMoves = []
 
-   //                **************** Y - AXIS ******************
-
-   // do same as #2 for 
-   const checkYMoves = () => {
-      if (bound.includes(ypos)) {
-         return bound.filter(e => e !== ypos)
+      // CHECKS IF LEFT OR RIGHT IS PASSED AS PARAM
+      const itirationParam = (i, bound) => {
+         switch (direction) {
+            case 'right':
+               return bound == 'max' ?
+                  [xpos + i, ypos + i] :
+                  [xpos - i, ypos - i]
+            case 'left':
+               return bound == 'max' ?
+                  [xpos - i, ypos + i] :
+                  [xpos + i, ypos - i]
+         }
       }
+
+      // PUSH VALID MOVES TO AN ARRAY
+      for (let i = 1; maxDiagBound(i, xpos, ypos, direction); i++) {
+         allMoves.push(itirationParam(i, 'max'))
+      }
+      for (let i = 1; minDiagBound(i, xpos, ypos, direction); i++) {
+         allMoves.push(itirationParam(i, 'min'))
+      }
+
+      // RETURN COMPLETE ARRAY
+      return allMoves
    }
 
-      // console.log('checkYMoves' , checkYMoves())
+   const vhBoundaries = (pos, axis) => {
+      const allMoves = []
 
+      // DEFINING BOUNDARIES
+      const maxBound = (pos) => {
+         return 8 - pos
+      }
+      const minBound = (pos) => {
+         return Math.abs(1 - pos)
+      }
 
-   //          ************** COMBINING X AND Y AXIS *********************
+      // CHECKS IF X AXIS OR Y AXIS IS PASSED AS PARAMETER
+      const itirationParam = (index, bound) => {
+         switch (axis) {
+            case 'x':
+               return bound == 'max' ?
+                  [xpos + index + 1, ypos] :
+                  [xpos - (index + 1), ypos]
+            case 'y':
+               return bound == 'max' ?
+                  [xpos, ypos + index + 1] :
+                  [xpos, ypos - (index + 1)]
+         }
+      }
 
-   //  I want to create a new array that has all 
+      // PUSH VALID MOVES TO AN ARRAY
+      for (let i = 0; i < maxBound(pos); i++) {
+         allMoves.push(itirationParam(i, 'max'))
+      }
+      for (let i = 0; i < minBound(pos); i++) {
+         allMoves.push(itirationParam(i, 'min'))
+      }
 
-   
+      // RETURN COMPLETE ARRAY
+      return allMoves
+   }
 
+   const pieceMoves = () => {
+      return [...diagBound(xpos, ypos, 'right'), ...diagBound(xpos, ypos, 'left'),
+      ...vhBoundaries(xpos, 'x'), ...vhBoundaries(ypos, 'y')]
+   }
 
    const handleClick = () => {
-      console.log(xpos, ypos)
+      console.log("Current pos Queen:", [xpos, ypos])
+      setValidMoves(pieceMoves())
    }
 
    return (
-      <p onClick={handleClick}>{xpos} x {ypos}</p>
+      <p onClick={handleClick}>Queen</p>
    )
 }
 
