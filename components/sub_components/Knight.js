@@ -3,79 +3,29 @@ import React from 'react'
 const Knight = (props) => {
    const { xpos, ypos, validMoves, setValidMoves } = props
 
-   const withinBounds = (xpos, ypos) => {
-      const boundaries = [1, 8]
-      return !boundaries.includes(xpos, ypos)
+   const knightMoves = (xpos,ypos) => {
+      return(
+         [[xpos - 2, ypos - 1],
+         [xpos - 2, ypos + 1],
+         [xpos - 1, ypos - 2],
+         [xpos - 1, ypos + 2],
+         [xpos + 1, ypos - 2],
+         [xpos + 1, ypos + 2],
+         [xpos + 2, ypos - 1],
+         [xpos + 2, ypos + 1]]
+         )
    }
 
-   //   if you subtract by 2 and it not less than or equal to 0
-   //   x - 2 
-
-   // if knight positioned @ (4,4)
-   let xFinal = 6;
-   let yFinal = 3;
-   const pieceMoves = () => {
-      if (xFinal - xpos === -2) {
-         if (yFinal - ypos === -1) {
-            console.log('valid move')
-            return 'Left Valid Move'
-         }
-         if (yFinal - ypos === 1) {
-            console.log('valid move')
-            return 'Left Valid Move'
-         } else {
-            console.log('invalid move')
-            return 'Invalid Move'
-         }
-      }
-      if (xFinal - xpos === -1) {
-         if (yFinal - ypos === -2) {
-            console.log('valid move')
-            return 'Valid Move'
-         }
-         if (yFinal - ypos === 2) {
-            console.log('valid move')
-            return 'Valid Move'
-         } else {
-            console.log('invalid move')
-            return 'Invalid Move'
-         }
-      }
-      if (xFinal - xpos === 1) {
-         if (yFinal - ypos === -2) {
-            console.log('valid move')
-            return 'Valid Move'
-         }
-         if (yFinal - ypos === 2) {
-            console.log('valid move')
-            return 'Valid Move'
-         } else {
-            console.log('invalid move')
-            return 'Invalid Move'
-         }
-      }
-      if (xFinal - xpos === 2) {
-         if (yFinal - ypos === -1) {
-            console.log('valid move')
-            return 'Valid Move'
-         }
-         if (yFinal - ypos === 1) {
-            console.log('valid move')
-            return 'Valid Move'
-         } else {
-            console.log('invalid move')
-            return 'Invalid Move'
-         }
-      }
+   const newArray = (xpos, ypos) => {
+      console.log(
+         knightMoves(xpos, ypos).filter(move => { return move[0] <= 8 && move[0] >= 1 && move[1] <= 8 && move[1] > 0})
+         )
    }
-
-   const posibleMoves = () => {
-      // if xpos is within the range then it can do this
-   }
-
+      
    const handleClick = () => {
       console.log('xpos', xpos, 'ypos', ypos)
-      setValidMoves(pieceMoves());
+      setValidMoves(newArray(xpos, ypos));
+      // setValidMoves(pieceMoves());
    }
    return (
       <p onClick={handleClick}> Knight </p>
