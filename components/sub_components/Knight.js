@@ -25,7 +25,7 @@ const Knight = (props) => {
   }
 
   const handleClick = () => {
-    console.log('xpos', xpos, 'ypos', ypos)
+    console.log('Current pos Knight: ', [xpos, ypos])
     setValidMoves(pieceMoves(xpos, ypos))
     setSelectedPiece([xpos, ypos])
   }

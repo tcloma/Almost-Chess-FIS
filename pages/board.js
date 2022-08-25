@@ -10,7 +10,13 @@ const Board = () => {
   // Global Variables
   const rows = [...Array(8)]
   const columns = [...Array(8)]
-  const allTiles = [...document.querySelectorAll('[tile]')]
+  let allTiles;
+
+  // Wait for DOM to render before fetching tiles
+  const fetchTiles = async () => {
+   allTiles = [...document.querySelectorAll('[tile]')]
+  }
+  fetchTiles()
 
   // States
   const [turn, setTurn] = useState('')
@@ -18,7 +24,7 @@ const Board = () => {
   const [selectedPiece, setSelectedPiece] = useState([0, 0])
 
   // EVENT LISTENERS
-  const handleClick = () => {
+  const handleTurnClick = () => {
     switch (turn) {
       case '':
         setTurn('white')
@@ -58,9 +64,9 @@ const Board = () => {
         seperationIndeces.push(index)
       }
     }
-    console.log('Seperation Indices', seperationIndeces)
+    // console.log('Seperation Indices', seperationIndeces)
 
-    // Seperates possible moves per axis
+    // Seperates possible moves per axis ; Refactor to dynamically assign values to make DRYer
     const xPlusMoves = validMoves.slice(0, seperationIndeces[0])
     const xMinusMoves = validMoves.slice(seperationIndeces[0] + 1, seperationIndeces[1])
     const yPlusMoves = validMoves.slice(seperationIndeces[1] + 1, seperationIndeces[2])
@@ -71,17 +77,18 @@ const Board = () => {
     const queenYMinusMove = validMoves.slice(seperationIndeces[6] + 1, seperationIndeces[7])
 
     // Log all seperate axis'
-    console.log('X+', xPlusMoves)
-    console.log('X-', xMinusMoves)
-    console.log('Y+', yPlusMoves)
+    // console.log('X+', xPlusMoves)
+    // console.log('X-', xMinusMoves)
+    // console.log('Y+', yPlusMoves)
+    // console.log('Y-', yMinusMoves)
     // console.log('QueenX+',queenXPlusMove)
 
+    // Check if a move is on an occupied tile
     const findValidMoves = (moveArr) => {
-      console.log('called valid')
       const filteredValid = []
       for (let i = 0; i < moveArr.length; i++) {
         if (!occupiedTileIds.includes(moveArr[i].join(''))) {
-          console.log(moveArr[i])
+          // console.log(moveArr[i])
           filteredValid.push(moveArr[i])
         }
         else {
@@ -95,7 +102,7 @@ const Board = () => {
       const filteredValid = []
       for (let i = 0; i < moveArr.length; i++) {
         if (!occupiedTileIds.includes(moveArr[i].join(''))) {
-          console.log(moveArr[i])
+          // console.log(moveArr[i])
           filteredValid.push(moveArr[i])
         }
       }
@@ -104,7 +111,7 @@ const Board = () => {
 
     const filteredMoves = [...findStaticValidMoves(validMoves.filter(move => move !== '-'))]
 
-    // Refactor variables to make this dryer
+    // Refactor variables to make this DRYer
     const filteredMovesLong = seperationIndeces.length < 4 ? [
       ...findValidMoves(xPlusMoves),
       ...findValidMoves(xMinusMoves),
@@ -122,8 +129,8 @@ const Board = () => {
         ...findValidMoves(queenYMinusMove)
       ]
 
-    // console.log('Filtered Moves:', filteredMoves)
     const finalMoves = seperationIndeces.length == 0 ? filteredMoves : filteredMovesLong
+    console.log('Valid moves:', finalMoves)
     return finalMoves
   }
 
@@ -148,7 +155,7 @@ const Board = () => {
   }
 
   useEffect(() => {
-    console.log("Valid Moves:", validMoves)
+    console.log("Possible Moves:", validMoves)
     showValidTiles()
   }, [validMoves])
 
