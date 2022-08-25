@@ -46,14 +46,10 @@ const Board = () => {
     // Defining available tiles
     const occupiedTiles = allTiles.filter(tile => tile.firstChild.firstChild !== null)
     const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
-    const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
-    // console.log((tileChildren[0].children[1].alt).split('-'))
+    const selectedTile = allTiles.find(tile => tile.id == selectedPiece.join(''))
+    // const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
 
-    const asyncLog = async () => {
-      console.log(tileChildren)
-    }
-
-    asyncLog()
+    // const selectedPiece = selectedTile.firstChild.firstChild.children[1].alt
 
     // Conforming data to format
     const seperationIndeces = []
