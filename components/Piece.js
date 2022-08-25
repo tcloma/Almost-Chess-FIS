@@ -6,7 +6,7 @@ import Queen from '../components/sub_components/Queen'
 import Rook from '../components/sub_components/Rook'
 import Knight from '../components/sub_components/Knight'
 
-const Piece = (props) => {
+const Piece = (props) => {}
 
   const currentPiece = () => {
     switch (props.ypos - 1) {
