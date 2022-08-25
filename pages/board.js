@@ -55,13 +55,34 @@ const Board = () => {
 
     const allTiles = [...document.querySelectorAll('[tile]')]
     const occupiedTiles = allTiles.filter(tile => tile.firstChild.firstChild !== null)
-    const emptyTiles = allTiles.filter(tile => tile.firstChild.firstChild === null)
-    const emptyTileIds = emptyTiles.map((emptyTile) => emptyTile.id)
+    const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
 
-    const tileClasses = allTiles.map(tile => tile.firstChild.firstChild)
+    const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
+    console.log((tileChildren[0].children[1].alt).split('-')[0] == 'white')
+    // console.log(occupiedTiles)
 
-    console.log(tileClasses[0].textContent)
+  
+    const filteredMoves = validMoves.filter((move) => {
+      return (
+        occupiedTileIds.includes(move.join(''))
+      )
+    })
 
+    // const doubleFilter = filteredMoves.filter((move) => {
+    //   return(
+        
+    //   )
+    // })
+
+    // Take the index of the moves blocked the path
+    // Slice the array to remove all moves beyond the blocked move
+    // If piece blocking is ally, invalid move
+    // If piece blocking is enemy, chance for capture
+
+    console.log('Filtered moves:', filteredMoves)
+
+
+    // Remove all highlighting
     for (const tile of allTiles) {
       if (tile.classList.contains(styles.highlighted) || tile.classList.contains(styles.highlightedLight)) {
         tile.classList.remove(styles.highlighted)
@@ -73,16 +94,8 @@ const Board = () => {
     const cHighlight = document.getElementById(`${selectedPiece.join('')}`)
     cHighlight.classList.add(styles.highlightedLight)
 
-    const filteredMoves = validMoves.filter((move) => {
-      return(
-        emptyTileIds.includes(move.join(''))
-      )
-    })
-
-    console.log('Filtered moves:', filteredMoves)
-
     // Highlights all valid moves
-    for (const move of validMoves) {
+    for (const move of filteredMoves) {
       document.getElementById(`${move.join('')}`).classList.add(styles.highlighted)
     }
   }
