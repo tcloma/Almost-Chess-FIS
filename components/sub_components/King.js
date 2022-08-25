@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 
 const King = (props) => {
-  let  { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
 
   // xpos = 6
   // ypos = 6
@@ -32,20 +32,20 @@ const King = (props) => {
 
   return (
     <>
-      {ypos == 1 ?
+      {name.split('-').includes('White') ?
         <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_klt45.svg/800px-Chess_klt45.svg.png'
           height={100}
           width={100}
-          alt='white-king'
+          alt={name}
         />
         : <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/800px-Chess_kdt45.svg.png'
           height={100}
           width={100}
-          alt='black-king'
+          alt={name}
         />
       }
     </>

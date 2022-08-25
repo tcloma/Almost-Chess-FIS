@@ -3,6 +3,7 @@ import styles from '../styles/Board.module.scss'
 import Piece from '../components/Piece'
 import { P1Timer, P2Timer } from '../components/Timer'
 import { useState, useEffect, useRef, Children } from 'react'
+import pieceData from '../chess_pieces'
 
 
 const Board = () => {
@@ -14,7 +15,7 @@ const Board = () => {
 
   // Wait for DOM to render before fetching tiles
   const fetchTiles = async () => {
-   allTiles = [...document.querySelectorAll('[tile]')]
+    allTiles = [...document.querySelectorAll('[tile]')]
   }
   fetchTiles()
 
@@ -50,7 +51,7 @@ const Board = () => {
 
   const getValidTiles = () => {
     // Defining available tiles
-    const occupiedTiles = allTiles.filter(tile => tile.firstChild.firstChild !== null)
+    const occupiedTiles = allTiles.filter(tile => tile.firstChild !== null)
     const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
     const selectedTile = allTiles.find(tile => tile.id == selectedPiece.join(''))
     // const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
@@ -154,6 +155,21 @@ const Board = () => {
     }
   }
 
+
+  const renderPiece = (tileX, tileY) => {
+    const obj = pieceData.find(piece => piece.xpos == tileX && piece.ypos == tileY && piece);
+    const spec = obj == undefined ? {id: 0, xpos: 0, ypos: 0, piece_name: "dummy piece"} : obj
+    // console.log(spec.id);
+
+    return (
+      <Piece id={spec.id} xpos={spec.xpos} ypos={spec.ypos}
+        name={spec.piece_name}
+        setValidMoves={setValidMoves}
+        setSelectedPiece={setSelectedPiece}
+      />
+    )
+  }
+
   useEffect(() => {
     console.log("Possible Moves:", validMoves)
     showValidTiles()
@@ -181,13 +197,7 @@ const Board = () => {
                     tile={[cIndex + 1, rIndex + 1].join('')}
                     className={tileColorLogic(cIndex, rIndex)}
                   >
-                    <Piece
-                      xpos={cIndex + 1}
-                      ypos={rIndex + 1}
-                      validMoves={validMoves}
-                      setValidMoves={setValidMoves}
-                      setSelectedPiece={setSelectedPiece}
-                    />
+                    {renderPiece(cIndex + 1, rIndex + 1)}
                   </div>
                 )
               })}

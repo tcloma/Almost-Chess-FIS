@@ -3,7 +3,7 @@ import Image from 'next/image'
 // import Add from ''
 
 const Rook = (props) => {
-  let { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
   // Change to let for debugging
 
   // xpos = 7
@@ -58,20 +58,20 @@ const Rook = (props) => {
 
   return (
     <>
-      {ypos == 1 ?
+      {name.split('-').includes('White') ?
         <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_rlt45.svg/800px-Chess_rlt45.svg.png'
           height={100}
           width={100}
-          alt='white-rook'
+          alt={name}
         />
         : <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Chess_rdt45.svg/800px-Chess_rdt45.svg.png'
           height={100}
           width={100}
-          alt='black-rook'
+          alt={name}
         />
       }
     </>

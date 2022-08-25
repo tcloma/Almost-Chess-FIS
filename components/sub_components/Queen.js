@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 
 const Queen = (props) => {
-  let { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
 
   // xpos = 5
   // ypos = 5
@@ -97,20 +97,20 @@ const Queen = (props) => {
 
   return (
     <>
-      {ypos == 1 ?
+      {name.split('-').includes('White') ?
         <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Chess_qlt45.svg/800px-Chess_qlt45.svg.png'
           height={100}
           width={100}
-          alt='white-queen'
+          alt={name}
         />
         : <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chess_qdt45.svg/800px-Chess_qdt45.svg.png'
           height={100}
           width={100}
-          alt='black-queen'
+          alt={name}
         />
       }
     </>

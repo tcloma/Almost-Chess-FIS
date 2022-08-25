@@ -3,7 +3,7 @@ import Image from "next/image"
 
 
 const Pawn = (props) => {
-  let { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
   // Change to let for debugging
 
   // ypos = 3
@@ -15,20 +15,18 @@ const Pawn = (props) => {
   }
 
   const inStartingPos = (ypos) => {
-    return ypos == 2 || ypos == 6
+    return ypos == 2 || ypos == 7
   }
 
   // VALID MOVE CHECK
   const pieceMoves = () => {
-    if (withinBounds(ypos) && inStartingPos(ypos)) {
-      return [[xpos, ypos + 1], [xpos, ypos + 2]]
-    }
-    else if (withinBounds(ypos)) {
-      return [[xpos, ypos + 1]]
+    if (inStartingPos(ypos)) {
+      const position = name.split('-').includes('White') ? [[xpos, ypos + 1], [xpos, ypos + 2]] : [[xpos, ypos - 1], [xpos, ypos - 2]]
+      return position
     }
     else {
-      console.log('Your piece is on a boundary')
-      return [[xpos, ypos + 1]]
+      const position = name.split('-').includes('White') ? [[xpos, ypos + 1]] : [[xpos, ypos - 1]]
+      return position
     }
   }
 
@@ -39,25 +37,25 @@ const Pawn = (props) => {
   const handleClick = () => {
     console.log("Current pos Pawn:", [xpos, ypos])
     setValidMoves(pieceMoves())
-    setSelectedPiece([xpos,ypos])
+    setSelectedPiece([xpos, ypos])
   }
 
   return (
     <>
-      {ypos == 2 ?
+      {name.split('-').includes('White') ?
         <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/800px-Chess_plt45.svg.png'
           height={100}
           width={100}
-          alt='white-pawn'
+          alt={name}
         />
         : <Image
           onClick={handleClick}
           src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_pdt45.svg/800px-Chess_pdt45.svg.png'
           height={100}
           width={100}
-          alt='black-pawn'
+          alt={name}
         />
       }
     </>

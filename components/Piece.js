@@ -5,46 +5,38 @@ import King from '../components/sub_components/King'
 import Queen from '../components/sub_components/Queen'
 import Rook from '../components/sub_components/Rook'
 import Knight from '../components/sub_components/Knight'
-import piece from '../chess_pieces'
 
 const Piece = (props) => {
 
-  console.log(piece)
+  // console.log(piece)
 
   const currentPiece = () => {
-    switch (props.ypos - 1) {
-      case 1:
-      case 6:
-        // Renders pawns
-        return <Pawn {...props} />
-      case 0:
-      case 7:
-        // Renders special pieces
-        switch (props.xpos - 1) {
-          case 0:
-          case 7:
-            // return rook component
-            return <Rook {...props} />
-          case 1:
-          case 6:
-            //  return knight component
-            return <Knight {...props} />
-          case 2:
-          case 5:
-            // return bishop component
-            return <Bishop {...props} />
-          case 3:
-            // return queen component
-            return <Queen {...props} />
-          case 4:
-            //  return king component
-            return <King {...props} />
-        }
+    const splitName = props.name.split('-')
+    if (splitName.includes('Pawn')) {
+      return <Pawn {...props} />
+    }
+    else if (splitName.includes('Rook')) {
+      return <Rook {...props} />
+    }
+    else if (splitName.includes('Knight')){
+      return <Knight {...props} />
+    }
+    else if (splitName.includes('Bishop')){
+      return <Bishop {...props} />
+    }
+    else if (splitName.includes('Queen')){
+      return <Queen {...props} />
+    }
+    else if (splitName.includes('King')){
+      return <King {...props} />
+    }
+    else{
+      return null
     }
   }
 
   return (
-    <div>{currentPiece()}</div>
+    <>{currentPiece()}</>
   )
 }
 
