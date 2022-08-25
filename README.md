@@ -35,7 +35,7 @@
     - ~~Define board boundaries~~
     - ~~Increment the position in a specific way until a boundary is met~~
     - Check if there is another piece in the path of the move
-      - If it is an ally piece, you are blocked from going futher
+      - ~~If it is an ally piece, you are blocked from going futher~~
       - If it is an enemy piece, you are also blocked but you have the choice to capture the piece
   - For PAWN:
     - ~~If in starting row, can move one or two spaces~~

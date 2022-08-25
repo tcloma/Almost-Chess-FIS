@@ -3,7 +3,7 @@ import Image from "next/image"
 
 
 const Pawn = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
   // Change to let for debugging
 
   // ypos = 3

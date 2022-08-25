@@ -7,9 +7,12 @@ import { useState, useEffect, useRef, Children } from 'react'
 
 const Board = () => {
 
+  // Global Variables
   const rows = [...Array(8)]
   const columns = [...Array(8)]
+  const allTiles = [...document.querySelectorAll('[tile]')]
 
+  // States
   const [turn, setTurn] = useState('')
   const [validMoves, setValidMoves] = useState([[0, 0]])
   const [selectedPiece, setSelectedPiece] = useState([0, 0])
@@ -30,7 +33,6 @@ const Board = () => {
   }
 
   // RENDERING LOGIC
-
   const tileColorLogic = (cIndex, rIndex) => {
     switch (rIndex % 2) {
       case 0:
@@ -40,48 +42,96 @@ const Board = () => {
     }
   }
 
-  const pieceColorLogic = (rIndex) => {
-    switch (rIndex) {
-      case 0:
-      case 1:
-        return true
-      case 6:
-      case 7:
-        return false
+  const getValidTiles = () => {
+    // Defining available tiles
+    const occupiedTiles = allTiles.filter(tile => tile.firstChild.firstChild !== null)
+    const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
+    const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
+    // console.log((tileChildren[0].children[1].alt).split('-'))
+
+    const asyncLog = async () => {
+      console.log(tileChildren)
     }
+
+    asyncLog()
+
+    // Conforming data to format
+    const seperationIndeces = []
+    for (let index = 0; index < validMoves.length; index++) {
+      if (validMoves[index] === '-') {
+        seperationIndeces.push(index)
+      }
+    }
+    console.log('Seperation Indices', seperationIndeces)
+
+    // Seperates possible moves per axis
+    const xPlusMoves = validMoves.slice(0, seperationIndeces[0])
+    const xMinusMoves = validMoves.slice(seperationIndeces[0] + 1, seperationIndeces[1])
+    const yPlusMoves = validMoves.slice(seperationIndeces[1] + 1, seperationIndeces[2])
+    const yMinusMoves = validMoves.slice(seperationIndeces[2] + 1, seperationIndeces[3])
+    const queenXPlusMove = validMoves.slice(seperationIndeces[3] + 1, seperationIndeces[4])
+    const queenXMinusMove = validMoves.slice(seperationIndeces[4] + 1, seperationIndeces[5])
+    const queenYPlusMove = validMoves.slice(seperationIndeces[5] + 1, seperationIndeces[6])
+    const queenYMinusMove = validMoves.slice(seperationIndeces[6] + 1, seperationIndeces[7])
+
+    // Log all seperate axis'
+    console.log('X+', xPlusMoves)
+    console.log('X-', xMinusMoves)
+    console.log('Y+', yPlusMoves)
+    // console.log('QueenX+',queenXPlusMove)
+
+    const findValidMoves = (moveArr) => {
+      console.log('called valid')
+      const filteredValid = []
+      for (let i = 0; i < moveArr.length; i++) {
+        if (!occupiedTileIds.includes(moveArr[i].join(''))) {
+          console.log(moveArr[i])
+          filteredValid.push(moveArr[i])
+        }
+        else {
+          break;
+        }
+      }
+      return filteredValid
+    }
+
+    const findStaticValidMoves = (moveArr) => {
+      const filteredValid = []
+      for (let i = 0; i < moveArr.length; i++) {
+        if (!occupiedTileIds.includes(moveArr[i].join(''))) {
+          console.log(moveArr[i])
+          filteredValid.push(moveArr[i])
+        }
+      }
+      return filteredValid
+    }
+
+    const filteredMoves = [...findStaticValidMoves(validMoves.filter(move => move !== '-'))]
+
+    // Refactor variables to make this dryer
+    const filteredMovesLong = seperationIndeces.length < 4 ? [
+      ...findValidMoves(xPlusMoves),
+      ...findValidMoves(xMinusMoves),
+      ...findValidMoves(yPlusMoves),
+      ...findValidMoves(yMinusMoves)
+    ] :
+      [
+        ...findValidMoves(xPlusMoves),
+        ...findValidMoves(xMinusMoves),
+        ...findValidMoves(yPlusMoves),
+        ...findValidMoves(yMinusMoves),
+        ...findValidMoves(queenXPlusMove),
+        ...findValidMoves(queenXMinusMove),
+        ...findValidMoves(queenYPlusMove),
+        ...findValidMoves(queenYMinusMove)
+      ]
+
+    // console.log('Filtered Moves:', filteredMoves)
+    const finalMoves = seperationIndeces.length == 0 ? filteredMoves : filteredMovesLong
+    return finalMoves
   }
 
   const showValidTiles = () => {
-
-    const allTiles = [...document.querySelectorAll('[tile]')]
-    const occupiedTiles = allTiles.filter(tile => tile.firstChild.firstChild !== null)
-    const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
-
-    const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
-    console.log((tileChildren[0].children[1].alt).split('-')[0] == 'white')
-    // console.log(occupiedTiles)
-
-  
-    const filteredMoves = validMoves.filter((move) => {
-      return (
-        occupiedTileIds.includes(move.join(''))
-      )
-    })
-
-    // const doubleFilter = filteredMoves.filter((move) => {
-    //   return(
-        
-    //   )
-    // })
-
-    // Take the index of the moves blocked the path
-    // Slice the array to remove all moves beyond the blocked move
-    // If piece blocking is ally, invalid move
-    // If piece blocking is enemy, chance for capture
-
-    console.log('Filtered moves:', filteredMoves)
-
-
     // Remove all highlighting
     for (const tile of allTiles) {
       if (tile.classList.contains(styles.highlighted) || tile.classList.contains(styles.highlightedLight)) {
@@ -95,8 +145,9 @@ const Board = () => {
     cHighlight.classList.add(styles.highlightedLight)
 
     // Highlights all valid moves
-    for (const move of filteredMoves) {
+    for (const move of getValidTiles()) {
       document.getElementById(`${move.join('')}`).classList.add(styles.highlighted)
+      // console.log(move)
     }
   }
 

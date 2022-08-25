@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 
 const Queen = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+
+  // xpos = 5
+  // ypos = 5
 
   const maxDiagBound = (i, xpos, ypos, direction) => {
     return direction == 'right' ?
@@ -37,6 +40,7 @@ const Queen = (props) => {
     for (let i = 1; maxDiagBound(i, xpos, ypos, direction); i++) {
       allMoves.push(itirationParam(i, 'max'))
     }
+    allMoves.push('-')
     for (let i = 1; minDiagBound(i, xpos, ypos, direction); i++) {
       allMoves.push(itirationParam(i, 'min'))
     }
@@ -70,6 +74,7 @@ const Queen = (props) => {
     for (let i = 0; i < maxBound(pos); i++) {
       allMoves.push(itirationParam(i, 'max'))
     }
+    allMoves.push('-')
     for (let i = 0; i < minBound(pos); i++) {
       allMoves.push(itirationParam(i, 'min'))
     }
@@ -80,8 +85,8 @@ const Queen = (props) => {
   }
 
   const pieceMoves = () => {
-    return [...diagBound(xpos, ypos, 'right'), ...diagBound(xpos, ypos, 'left'),
-    ...vhBoundaries(xpos, 'x'), ...vhBoundaries(ypos, 'y')]
+    return [...diagBound(xpos, ypos, 'right'),'-',...diagBound(xpos, ypos, 'left'),'-',
+    ...vhBoundaries(xpos, 'x'),'-',...vhBoundaries(ypos, 'y')]
   }
 
   const handleClick = () => {

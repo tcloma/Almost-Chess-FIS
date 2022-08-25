@@ -2,7 +2,10 @@ import React from 'react'
 import Image from 'next/image'
 
 const King = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let  { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+
+  // xpos = 6
+  // ypos = 6
 
   const kingMoves = (xpos, ypos) => {
     return (
