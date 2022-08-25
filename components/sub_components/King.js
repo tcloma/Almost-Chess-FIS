@@ -1,7 +1,11 @@
 import React from 'react'
+import Image from 'next/image'
 
 const King = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let  { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+
+  // xpos = 6
+  // ypos = 6
 
   const kingMoves = (xpos, ypos) => {
     return (
@@ -27,7 +31,24 @@ const King = (props) => {
   }
 
   return (
-    <p onClick={handleClick}>King</p>
+    <>
+      {ypos == 1 ?
+        <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_klt45.svg/800px-Chess_klt45.svg.png'
+          height={100}
+          width={100}
+          alt='white-king'
+        />
+        : <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/800px-Chess_kdt45.svg.png'
+          height={100}
+          width={100}
+          alt='black-king'
+        />
+      }
+    </>
   )
 }
 

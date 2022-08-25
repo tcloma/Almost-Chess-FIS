@@ -5,8 +5,11 @@ import King from '../components/sub_components/King'
 import Queen from '../components/sub_components/Queen'
 import Rook from '../components/sub_components/Rook'
 import Knight from '../components/sub_components/Knight'
+import piece from '../chess_pieces'
 
-const Piece = (props) => {}
+const Piece = (props) => {
+
+  console.log(piece)
 
   const currentPiece = () => {
     switch (props.ypos - 1) {

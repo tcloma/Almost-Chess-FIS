@@ -1,7 +1,11 @@
 import React from 'react'
+import Image from 'next/image'
 
 const Knight = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+
+  // xpos = 4
+  // ypos = 5
 
   const knightMoves = (xpos, ypos) => {
     return (
@@ -23,11 +27,28 @@ const Knight = (props) => {
   const handleClick = () => {
     console.log('xpos', xpos, 'ypos', ypos)
     setValidMoves(pieceMoves(xpos, ypos))
-    setSelectedPiece([xpos,ypos])
+    setSelectedPiece([xpos, ypos])
   }
 
   return (
-    <p onClick={handleClick}> Knight </p>
+    <>
+      {ypos == 1 ?
+        <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chess_nlt45.svg/800px-Chess_nlt45.svg.png'
+          height={100}
+          width={100}
+          alt='white-knight'
+        />
+        : <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chess_ndt45.svg/800px-Chess_ndt45.svg.png'
+          height={100}
+          width={100}
+          alt='black-knight'
+        />
+      }
+    </>
   )
 }
 

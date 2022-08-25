@@ -1,8 +1,9 @@
 import React from "react"
+import Image from "next/image"
 
 
 const Pawn = (props) => {
-  const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
+  let { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
   // Change to let for debugging
 
   // ypos = 3
@@ -42,7 +43,24 @@ const Pawn = (props) => {
   }
 
   return (
-    <p onClick={handleClick}> P </p>
+    <>
+      {ypos == 2 ?
+        <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/800px-Chess_plt45.svg.png'
+          height={100}
+          width={100}
+          alt='white-pawn'
+        />
+        : <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_pdt45.svg/800px-Chess_pdt45.svg.png'
+          height={100}
+          width={100}
+          alt='black-pawn'
+        />
+      }
+    </>
   )
 }
 
