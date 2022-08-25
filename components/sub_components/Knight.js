@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 const Knight = (props) => {
   const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
@@ -27,7 +28,24 @@ const Knight = (props) => {
   }
 
   return (
-    <p onClick={handleClick}> Knight </p>
+    <>
+      {ypos == 1 ?
+        <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chess_nlt45.svg/800px-Chess_nlt45.svg.png'
+          height={100}
+          width={100}
+          alt='white-knight'
+        />
+        : <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chess_ndt45.svg/800px-Chess_ndt45.svg.png'
+          height={100}
+          width={100}
+          alt='black-knight'
+        />
+      }
+    </>
   )
 }
 

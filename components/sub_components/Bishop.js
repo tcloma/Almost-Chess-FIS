@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 
 const Bishop = (props) => {
 
@@ -61,8 +62,24 @@ const Bishop = (props) => {
   }
 
   return (
-    <p onClick={handleClick}> Bishop </p>
-
+    <>
+      {ypos == 1 ?
+        <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Chess_blt45.svg/800px-Chess_blt45.svg.png'
+          height={100}
+          width={100}
+          alt='white-bishop'
+        />
+        : <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_bdt45.svg/800px-Chess_bdt45.svg.png'
+          height={100}
+          width={100}
+          alt='black-bishop'
+        />
+      }
+    </>
   )
 }
 

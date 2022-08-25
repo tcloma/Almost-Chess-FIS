@@ -1,9 +1,8 @@
 import Head from 'next/head'
-import Layout from '../components/Layout'
 import styles from '../styles/Board.module.scss'
 import Piece from '../components/Piece'
 import { P1Timer, P2Timer } from '../components/Timer'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Children } from 'react'
 
 
 const Board = () => {
@@ -54,18 +53,36 @@ const Board = () => {
 
   const showValidTiles = () => {
 
-    const allTiles = document.querySelectorAll('[tile]')
-    for (let tile of allTiles) {
+    const allTiles = [...document.querySelectorAll('[tile]')]
+    const occupiedTiles = allTiles.filter(tile => tile.firstChild.firstChild !== null)
+    const emptyTiles = allTiles.filter(tile => tile.firstChild.firstChild === null)
+    const emptyTileIds = emptyTiles.map((emptyTile) => emptyTile.id)
+
+    const tileClasses = allTiles.map(tile => tile.firstChild.firstChild)
+
+    console.log(tileClasses[0].textContent)
+
+    for (const tile of allTiles) {
       if (tile.classList.contains(styles.highlighted) || tile.classList.contains(styles.highlightedLight)) {
         tile.classList.remove(styles.highlighted)
         tile.classList.remove(styles.highlightedLight)
       }
     }
 
+    // Highlight selected square
     const cHighlight = document.getElementById(`${selectedPiece.join('')}`)
     cHighlight.classList.add(styles.highlightedLight)
 
-    for (let move of validMoves) {
+    const filteredMoves = validMoves.filter((move) => {
+      return(
+        emptyTileIds.includes(move.join(''))
+      )
+    })
+
+    console.log('Filtered moves:', filteredMoves)
+
+    // Highlights all valid moves
+    for (const move of validMoves) {
       document.getElementById(`${move.join('')}`).classList.add(styles.highlighted)
     }
   }
@@ -77,7 +94,7 @@ const Board = () => {
 
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Chess Board</title>
         <meta name="description" content="game-page" />
@@ -91,7 +108,12 @@ const Board = () => {
             <div className={styles.row} key={rIndex} row={rIndex + 1}>
               {columns.map((column, cIndex) => {
                 return (
-                  <div tile={[cIndex + 1, rIndex + 1].join('')} className={tileColorLogic(cIndex, rIndex)} key={cIndex} id={[cIndex + 1, rIndex + 1].join('')}>
+                  <div
+                    key={cIndex}
+                    id={[cIndex + 1, rIndex + 1].join('')}
+                    tile={[cIndex + 1, rIndex + 1].join('')}
+                    className={tileColorLogic(cIndex, rIndex)}
+                  >
                     <Piece
                       xpos={cIndex + 1}
                       ypos={rIndex + 1}
@@ -106,7 +128,7 @@ const Board = () => {
           )
         })}
       </div>
-    </Layout>
+    </>
   )
 }
 

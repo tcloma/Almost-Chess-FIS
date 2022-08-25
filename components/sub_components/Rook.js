@@ -1,4 +1,6 @@
 import React from 'react'
+import Image from 'next/image'
+// import Add from ''
 
 const Rook = (props) => {
   const { xpos, ypos, validMoves, setValidMoves, setSelectedPiece } = props
@@ -12,12 +14,8 @@ const Rook = (props) => {
     const allMoves = []
 
     // DEFINING BOUNDARIES
-    const maxBound = (pos) => {
-      return 8 - pos
-    }
-    const minBound = (pos) => {
-      return Math.abs(1 - pos)
-    }
+    const maxBound = (pos) => 8 - pos
+    const minBound = (pos) => Math.abs(1 - pos)
 
     // CHECKS IF X AXIS OR Y AXIS IS PASSED AS PARAMETER
     const itirationParam = (index, bound) => {
@@ -46,18 +44,35 @@ const Rook = (props) => {
   }
 
   const pieceMoves = () => {
-    return [...vhBoundaries(xpos, 'x'),...vhBoundaries(ypos, 'y')]
+    return [...vhBoundaries(xpos, 'x'), ...vhBoundaries(ypos, 'y')]
   }
 
   // SEND VALID MOVES BACK TO BOARD
   const handleClick = () => {
     console.log("Current pos Rook:", [xpos, ypos])
     setValidMoves(pieceMoves())
-    setSelectedPiece([xpos,ypos])
+    setSelectedPiece([xpos, ypos])
   }
 
   return (
-    <p onClick={handleClick}> Rook </p>
+    <>
+      {ypos == 1 ?
+        <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_rlt45.svg/800px-Chess_rlt45.svg.png'
+          height={100}
+          width={100}
+          alt='white-rook'
+        />
+        : <Image
+          onClick={handleClick}
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Chess_rdt45.svg/800px-Chess_rdt45.svg.png'
+          height={100}
+          width={100}
+          alt='black-rook'
+        />
+      }
+    </>
   )
 }
 
