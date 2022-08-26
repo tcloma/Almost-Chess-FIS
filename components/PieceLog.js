@@ -1,27 +1,14 @@
-import React from "react"
+import React , {useState , useEffect} from "react"
 import PieceLogCard from './PieceLogCard'
+import styles from '../styles/PieceLog.module.scss'
 
-const PieceLog = () => {
-   const [pieceLog, setPieceLog] = useState([])
 
-   useEffect(() => {
-      // your localhost with route goes in here 
-      fetch('http://localhost:9292/pieces')
-      .then((res) => res.json)
-      .then(piece => setPieceLog([piece]))
-   } , [])
-
-   // const aFunctionthatTiesEachPieceTogether = (() => {
-   //    if this piece has xpos = x_pos and ypos = y_pos
-   //    then this piece is associated to that id (forever!!!) 
-   //    (backend) piece.xpos = xpos (frontend)
-   // })
-
+const PieceLog = ({chessPiece}) => {
    return (
-      <div>
+      <div className={styles.chessPiece}>
          {
-            pieceLog.map((chessPiece) => {
-               return <PieceLogCard key={chessPiece.id} props={chessPiece}  />
+            chessPiece.map((chesspiece) => {
+               return <PieceLogCard key={chesspiece.id} chessPiece={chesspiece}/>
             })
          }
       </div>

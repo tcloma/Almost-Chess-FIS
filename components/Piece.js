@@ -8,7 +8,10 @@ import Knight from '../components/sub_components/Knight'
 
 const Piece = (props) => {
 
+<<<<<<< HEAD
   // console.log(piece)
+=======
+>>>>>>> olivia
 
   const currentPiece = () => {
     const splitName = props.name.split('-')
