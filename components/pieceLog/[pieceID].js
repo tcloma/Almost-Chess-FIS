@@ -1,4 +1,4 @@
-import {pieceLogCard} from './PieceLogCard'
+import {pieceLogCard} from '../PieceLogCard'
 
 export default function handler(req,res) {
    const { pieceId } = req.query

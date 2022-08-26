@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../styles/PieceLog.module.scss'
 
-export const getStaticProps = async (pieceId) => {
+export const getStaticProps = async () => {
    const deletePiece = async (pieceId) => {
       //  by default this is a GET request, so we pass in an argument and set method to DELETE 
       const res = await fetch(`http://localhost:9292/pieces/${pieceId}`, {
