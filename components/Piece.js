@@ -9,7 +9,6 @@ import piece from '../chess_pieces'
 
 const Piece = (props) => {
 
-  console.log(piece)
 
   const currentPiece = () => {
     switch (props.ypos - 1) {

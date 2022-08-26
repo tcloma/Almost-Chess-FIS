@@ -17,6 +17,9 @@ export default function Home() {
           <Link href='/board'>
             <h1>Go to board</h1>
           </Link>
+          <Link href='/pieceLogContainer'>
+            <h1>Go to Log Moves</h1>
+          </Link>
         </main>
       </Layout>
     </div>
