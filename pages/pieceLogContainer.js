@@ -9,8 +9,8 @@ export const getStaticProps = async() => {
 
    return {
       props: {chessPiece: data}
+      console.log(chessPiece)
    }
-
 }
 
 const pieceLogContainer = ({chessPiece}) => {
