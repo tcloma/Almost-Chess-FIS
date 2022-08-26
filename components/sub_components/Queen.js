@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 
 const Queen = (props) => {
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
 
   // xpos = 5
   // ypos = 5
@@ -93,6 +93,7 @@ const Queen = (props) => {
     console.log("Current pos Queen:", [xpos, ypos])
     setValidMoves(pieceMoves())
     setSelectedPiece([xpos, ypos])
+    setCurrentPieceId(id)
   }
 
   return (

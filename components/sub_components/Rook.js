@@ -3,7 +3,7 @@ import Image from 'next/image'
 // import Add from ''
 
 const Rook = (props) => {
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
   // Change to let for debugging
 
   // xpos = 7
@@ -54,6 +54,7 @@ const Rook = (props) => {
     // console.log(pieceMoves())
     setValidMoves(pieceMoves())
     setSelectedPiece([xpos, ypos])
+    setCurrentPieceId(id)
   }
 
   return (

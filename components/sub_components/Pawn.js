@@ -3,7 +3,7 @@ import Image from "next/image"
 
 
 const Pawn = (props) => {
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
   // Change to let for debugging
 
   // ypos = 3
@@ -36,8 +36,9 @@ const Pawn = (props) => {
   // SEND VALID MOVES BACK TO BOARD
   const handleClick = () => {
     console.log("Current pos Pawn:", [xpos, ypos])
-    setValidMoves(pieceMoves())
+    setCurrentPieceId(id)
     setSelectedPiece([xpos, ypos])
+    setValidMoves(pieceMoves())
   }
 
   return (

@@ -23,6 +23,8 @@ const Board = () => {
   const [turn, setTurn] = useState('')
   const [validMoves, setValidMoves] = useState([[0, 0]])
   const [selectedPiece, setSelectedPiece] = useState([0, 0])
+  const [allPieces, setAllPieces] = useState(pieceData)
+  const [currentPieceId, setCurrentPieceId] = useState(0)
 
   // EVENT LISTENERS
   const handleTurnClick = () => {
@@ -53,9 +55,10 @@ const Board = () => {
     // Defining available tiles
     const occupiedTiles = allTiles.filter(tile => tile.firstChild !== null)
     const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
-    const selectedTile = allTiles.find(tile => tile.id == selectedPiece.join(''))
-    // const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
+    const occupiedTileAlts = occupiedTiles.map(occupiedTile => occupiedTile.firstChild.children[1].alt.split(''))
 
+    // const selectedTile = allTiles.find(tile => tile.id == selectedPiece.join(''))
+    // const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
     // const selectedPiece = selectedTile.firstChild.firstChild.children[1].alt
 
     // Conforming data to format
@@ -65,7 +68,7 @@ const Board = () => {
         seperationIndeces.push(index)
       }
     }
-    // console.log('Seperation Indices', seperationIndeces)
+    console.log('Seperation Indices', seperationIndeces)
 
     // Seperates possible moves per axis ; Refactor to dynamically assign values to make DRYer
     const xPlusMoves = validMoves.slice(0, seperationIndeces[0])
@@ -86,10 +89,20 @@ const Board = () => {
 
     // Check if a move is on an occupied tile
     const findValidMoves = (moveArr) => {
+      // console.log('calledLong')
+
+      const findSpecTile = (param) => {
+        const specId = occupiedTileIds.find(id => parseInt(id) === param)
+        return specId
+      }
+
       const filteredValid = []
       for (let i = 0; i < moveArr.length; i++) {
         if (!occupiedTileIds.includes(moveArr[i].join(''))) {
           // console.log(moveArr[i])
+          console.log(occupiedTileIds)
+          console.log(moveArr[i].join(''))
+          console.log('spec', findSpecTile(moveArr[i].join('')))
           filteredValid.push(moveArr[i])
         }
         else {
@@ -100,6 +113,7 @@ const Board = () => {
     }
 
     const findStaticValidMoves = (moveArr) => {
+      console.log('called short')
       const filteredValid = []
       for (let i = 0; i < moveArr.length; i++) {
         if (!occupiedTileIds.includes(moveArr[i].join(''))) {
@@ -110,39 +124,50 @@ const Board = () => {
       return filteredValid
     }
 
-    const filteredMoves = [...findStaticValidMoves(validMoves.filter(move => move !== '-'))]
-
-    // Refactor variables to make this DRYer
-    const filteredMovesLong = seperationIndeces.length < 4 ? [
-      ...findValidMoves(xPlusMoves),
-      ...findValidMoves(xMinusMoves),
-      ...findValidMoves(yPlusMoves),
-      ...findValidMoves(yMinusMoves)
-    ] :
-      [
-        ...findValidMoves(xPlusMoves),
-        ...findValidMoves(xMinusMoves),
-        ...findValidMoves(yPlusMoves),
-        ...findValidMoves(yMinusMoves),
-        ...findValidMoves(queenXPlusMove),
-        ...findValidMoves(queenXMinusMove),
-        ...findValidMoves(queenYPlusMove),
-        ...findValidMoves(queenYMinusMove)
-      ]
-
-    const finalMoves = seperationIndeces.length == 0 ? filteredMoves : filteredMovesLong
-    console.log('Valid moves:', finalMoves)
-    return finalMoves
-  }
-
-  const showValidTiles = () => {
-    // Remove all highlighting
-    for (const tile of allTiles) {
-      if (tile.classList.contains(styles.highlighted) || tile.classList.contains(styles.highlightedLight)) {
-        tile.classList.remove(styles.highlighted)
-        tile.classList.remove(styles.highlightedLight)
+    const finalMoves = () => {
+      // console.log('Sep: ', seperationIndeces)
+      if (seperationIndeces.length === 0) {
+        const filteredMoves = [...findStaticValidMoves(validMoves.filter(move => move !== '-'))]
+        return filteredMoves
+      }
+      else {
+        // Refactor variables to make this DRYer
+        const filteredMovesLong = seperationIndeces.length < 4 ? [
+          ...findValidMoves(xPlusMoves),
+          ...findValidMoves(xMinusMoves),
+          ...findValidMoves(yPlusMoves),
+          ...findValidMoves(yMinusMoves)
+        ] :
+          [
+            ...findValidMoves(xPlusMoves),
+            ...findValidMoves(xMinusMoves),
+            ...findValidMoves(yPlusMoves),
+            ...findValidMoves(yMinusMoves),
+            ...findValidMoves(queenXPlusMove),
+            ...findValidMoves(queenXMinusMove),
+            ...findValidMoves(queenYPlusMove),
+            ...findValidMoves(queenYMinusMove)
+          ]
+        return filteredMovesLong
       }
     }
+
+    console.log('Valid moves:', finalMoves())
+    return finalMoves()
+  }
+
+  // Highlight Valid tiles and make them clickable
+  const showValidTiles = () => {
+    // Remove all highlighting
+    const removeHighlight = () => {
+      for (const tile of allTiles) {
+        if (tile.classList.contains(styles.highlighted) || tile.classList.contains(styles.highlightedLight)) {
+          tile.classList.remove(styles.highlighted)
+          tile.classList.remove(styles.highlightedLight)
+        }
+      }
+    }
+    removeHighlight()
 
     // Highlight selected square
     const cHighlight = document.getElementById(`${selectedPiece.join('')}`)
@@ -151,14 +176,20 @@ const Board = () => {
     // Highlights all valid moves
     for (const move of getValidTiles()) {
       document.getElementById(`${move.join('')}`).classList.add(styles.highlighted)
+      document.getElementById(`${move.join('')}`).onclick = () => {
+        updatePosition(currentPieceId, move[0], move[1])
+        removeHighlight()
+        return false;
+      }
+
       // console.log(move)
     }
   }
 
 
   const renderPiece = (tileX, tileY) => {
-    const obj = pieceData.find(piece => piece.xpos == tileX && piece.ypos == tileY && piece);
-    const spec = obj == undefined ? {id: 0, xpos: 0, ypos: 0, piece_name: "dummy piece"} : obj
+    const obj = allPieces.find(piece => piece.xpos == tileX && piece.ypos == tileY && piece);
+    const spec = obj == undefined ? { id: 0, xpos: 0, ypos: 0, piece_name: "dummy piece" } : obj
     // console.log(spec.id);
 
     return (
@@ -166,9 +197,24 @@ const Board = () => {
         name={spec.piece_name}
         setValidMoves={setValidMoves}
         setSelectedPiece={setSelectedPiece}
+        setCurrentPieceId={setCurrentPieceId}
       />
     )
   }
+
+  const updatePosition = (id, newX, newY) => {
+    let updatedPieces = [...allPieces]
+    updatedPieces.map(piece => {
+      if (piece.id === id) {
+        console.log('fired')
+        piece.xpos = newX
+        piece.ypos = newY
+      }
+      return piece
+    })
+    setAllPieces(updatedPieces)
+  }
+
 
   useEffect(() => {
     console.log("Possible Moves:", validMoves)

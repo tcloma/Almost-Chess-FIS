@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 
 const King = (props) => {
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
 
   // xpos = 6
   // ypos = 6
@@ -28,6 +28,7 @@ const King = (props) => {
     console.log("Current pos King:", [xpos, ypos])
     setValidMoves(pieceMoves(xpos, ypos))
     setSelectedPiece([xpos, ypos])
+    setCurrentPieceId(id)
   }
 
   return (

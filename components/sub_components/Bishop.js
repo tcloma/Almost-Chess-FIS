@@ -3,7 +3,7 @@ import Image from "next/image"
 
 const Bishop = (props) => {
 
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
 
   // xpos = 4
   // ypos = 4
@@ -60,6 +60,7 @@ const Bishop = (props) => {
     console.log("Current pos Bishop:", [xpos, ypos])
     setValidMoves(pieceMoves())
     setSelectedPiece([xpos,ypos])
+    setCurrentPieceId(id)
   }
 
   return (
