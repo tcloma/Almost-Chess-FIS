@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 
 const Knight = (props) => {
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId, turn } = props
 
   // xpos = 4
   // ypos = 5
@@ -25,10 +25,15 @@ const Knight = (props) => {
   }
 
   const handleClick = () => {
-    console.log('Current pos Knight: ', [xpos, ypos])
-    setValidMoves(pieceMoves(xpos, ypos))
-    setSelectedPiece([xpos, ypos])
-    setCurrentPieceId(id)
+    if (turn === name.split('-')[0]) {
+      console.log('Current pos Knight: ', [xpos, ypos])
+      setValidMoves(pieceMoves(xpos, ypos))
+      setSelectedPiece([xpos, ypos])
+      setCurrentPieceId(id)
+    }
+    else {
+      console.log('Not your turn')
+    }
   }
 
   return (

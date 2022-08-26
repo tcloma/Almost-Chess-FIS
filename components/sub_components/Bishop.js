@@ -3,15 +3,15 @@ import Image from "next/image"
 
 const Bishop = (props) => {
 
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId, turn } = props
 
   // xpos = 4
   // ypos = 4
-  
+
   // ITIRATING TO BOUNDARIES
   const diagBound = (xpos, ypos, direction) => {
     const allMoves = []
-    
+
     // DEFINING BOUNDS
     const maxDiagBound = (i, xpos, ypos, direction) => {
       return direction == 'right' ?
@@ -52,15 +52,20 @@ const Bishop = (props) => {
   }
 
   const pieceMoves = () => {
-    return [...diagBound(xpos, ypos, 'right'),'-',...diagBound(xpos, ypos, 'left')]
+    return [...diagBound(xpos, ypos, 'right'), '-', ...diagBound(xpos, ypos, 'left')]
   }
 
   // SEND VALID MOVES BACK TO THE BOARD
   const handleClick = () => {
-    console.log("Current pos Bishop:", [xpos, ypos])
-    setValidMoves(pieceMoves())
-    setSelectedPiece([xpos,ypos])
-    setCurrentPieceId(id)
+    if (turn === name.split('-')[0]) {
+      console.log("Current pos Bishop:", [xpos, ypos])
+      setCurrentPieceId(id)
+      setSelectedPiece([xpos, ypos])
+      setValidMoves(pieceMoves())
+    }
+    else {
+      console.log('Not your turn')
+    }
   }
 
   return (

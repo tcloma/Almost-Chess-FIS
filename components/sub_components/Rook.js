@@ -3,7 +3,7 @@ import Image from 'next/image'
 // import Add from ''
 
 const Rook = (props) => {
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId, turn } = props
   // Change to let for debugging
 
   // xpos = 7
@@ -50,11 +50,15 @@ const Rook = (props) => {
 
   // SEND VALID MOVES BACK TO BOARD
   const handleClick = () => {
-    console.log("Current pos Rook:", [xpos, ypos])
-    // console.log(pieceMoves())
-    setValidMoves(pieceMoves())
-    setSelectedPiece([xpos, ypos])
-    setCurrentPieceId(id)
+    if (turn === name.split('-')[0]) {
+      console.log("Current pos Rook:", [xpos, ypos])
+      setCurrentPieceId(id)
+      setSelectedPiece([xpos, ypos])
+      setValidMoves(pieceMoves())
+    }
+    else {
+      console.log('Not your turn')
+    }
   }
 
   return (

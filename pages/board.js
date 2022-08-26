@@ -20,23 +20,25 @@ const Board = () => {
   fetchTiles()
 
   // States
-  const [turn, setTurn] = useState('')
+  const [turn, setTurn] = useState('White')
   const [validMoves, setValidMoves] = useState([[0, 0]])
   const [selectedPiece, setSelectedPiece] = useState([0, 0])
   const [allPieces, setAllPieces] = useState(pieceData)
   const [currentPieceId, setCurrentPieceId] = useState(0)
 
+  const clickedPiece = allPieces.find(piece => piece.id === currentPieceId)
+
   // EVENT LISTENERS
   const handleTurnClick = () => {
     switch (turn) {
       case '':
-        setTurn('white')
+        setTurn('White')
         break;
-      case 'white':
-        setTurn('black')
+      case 'White':
+        setTurn('Black')
         break;
-      case 'black':
-        setTurn('white')
+      case 'Black':
+        setTurn('White')
         break;
     }
   }
@@ -50,12 +52,13 @@ const Board = () => {
         return cIndex % 2 != 0 ? styles.coloredTile : styles.tile
     }
   }
+  
 
   const getValidTiles = () => {
     // Defining available tiles
     const occupiedTiles = allTiles.filter(tile => tile.firstChild !== null)
     const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
-    const occupiedTileAlts = occupiedTiles.map(occupiedTile => occupiedTile.firstChild.children[1].alt.split(''))
+    const occupiedTileAlts = occupiedTiles.map(occupiedTile => occupiedTile.firstChild.children[1].alt.split('-'))
 
     // const selectedTile = allTiles.find(tile => tile.id == selectedPiece.join(''))
     // const tileChildren = allTiles.map(tile => tile.firstChild.firstChild)
@@ -68,7 +71,7 @@ const Board = () => {
         seperationIndeces.push(index)
       }
     }
-    console.log('Seperation Indices', seperationIndeces)
+    // console.log('Seperation Indices', seperationIndeces)
 
     // Seperates possible moves per axis ; Refactor to dynamically assign values to make DRYer
     const xPlusMoves = validMoves.slice(0, seperationIndeces[0])
@@ -87,25 +90,31 @@ const Board = () => {
     // console.log('Y-', yMinusMoves)
     // console.log('QueenX+',queenXPlusMove)
 
+    const findSpecTile = (param) => {
+      // console.log(param)
+      const specId = occupiedTileIds.indexOf(param)
+      return specId
+    }
+
     // Check if a move is on an occupied tile
     const findValidMoves = (moveArr) => {
       // console.log('calledLong')
-
-      const findSpecTile = (param) => {
-        const specId = occupiedTileIds.find(id => parseInt(id) === param)
-        return specId
-      }
+      // console.log(occupiedTileIds)
 
       const filteredValid = []
       for (let i = 0; i < moveArr.length; i++) {
-        if (!occupiedTileIds.includes(moveArr[i].join(''))) {
-          // console.log(moveArr[i])
-          console.log(occupiedTileIds)
-          console.log(moveArr[i].join(''))
-          console.log('spec', findSpecTile(moveArr[i].join('')))
+        const tileId = moveArr[i].join('')
+        if (!occupiedTileIds.includes(tileId)) {
+          // console.log('Included: ', tileId)
           filteredValid.push(moveArr[i])
         }
         else {
+          const tileId = moveArr[i].join('')
+          const blockingPieceColor = occupiedTileAlts[findSpecTile(tileId)][0]
+          const selectedPieceColor = clickedPiece.piece_name.split('-')[0]
+          if (blockingPieceColor !== selectedPieceColor) {
+            filteredValid.push(moveArr[i])
+          }
           break;
         }
       }
@@ -113,12 +122,20 @@ const Board = () => {
     }
 
     const findStaticValidMoves = (moveArr) => {
-      console.log('called short')
+      // console.log('called short')
       const filteredValid = []
       for (let i = 0; i < moveArr.length; i++) {
         if (!occupiedTileIds.includes(moveArr[i].join(''))) {
           // console.log(moveArr[i])
           filteredValid.push(moveArr[i])
+        }
+        else {
+          const tileId = moveArr[i].join('')
+          const blockingPieceColor = occupiedTileAlts[findSpecTile(tileId)][0]
+          const selectedPieceColor = clickedPiece.piece_name.split('-')[0]
+          if (blockingPieceColor !== selectedPieceColor) {
+            filteredValid.push(moveArr[i])
+          }
         }
       }
       return filteredValid
@@ -158,37 +175,53 @@ const Board = () => {
 
   // Highlight Valid tiles and make them clickable
   const showValidTiles = () => {
-    // Remove all highlighting
+    const occupiedTiles = allTiles.filter(tile => tile.firstChild !== null)
+    const occupiedTileIds = occupiedTiles.map(occupiedTile => occupiedTile.id)
+    // const occupiedTileAlts = occupiedTiles.map(occupiedTile => occupiedTile.firstChild.children[1].alt.split('-'))
     const removeHighlight = () => {
       for (const tile of allTiles) {
-        if (tile.classList.contains(styles.highlighted) || tile.classList.contains(styles.highlightedLight)) {
+        if (tile.classList.contains(styles.highlighted) || tile.classList.contains(styles.highlightedPiece) || tile.classList.contains(styles.focused)) {
           tile.classList.remove(styles.highlighted)
-          tile.classList.remove(styles.highlightedLight)
+          tile.classList.remove(styles.highlightedPiece)
+          tile.classList.remove(styles.focused)
         }
       }
     }
     removeHighlight()
 
+    const removeListener = () => {
+      for (const move of getValidTiles()) {
+        document.getElementById(`${move.join('')}`).onclick = () => { }
+      }
+    }
+    removeListener()
+
     // Highlight selected square
     const cHighlight = document.getElementById(`${selectedPiece.join('')}`)
-    cHighlight.classList.add(styles.highlightedLight)
+    cHighlight.classList.add(styles.focused)
 
-    // Highlights all valid moves
+    // Highlights all valid moves and adds an event listener
     for (const move of getValidTiles()) {
-      document.getElementById(`${move.join('')}`).classList.add(styles.highlighted)
+      // Set highlighted classname bg to a grey ring if it contains a piece
+      if(occupiedTileIds.includes(move.join(''))){
+        document.getElementById(`${move.join('')}`).classList.add(styles.highlightedPiece)
+      }
+      else{
+        document.getElementById(`${move.join('')}`).classList.add(styles.highlighted)
+      }
       document.getElementById(`${move.join('')}`).onclick = () => {
-        updatePosition(currentPieceId, move[0], move[1])
+        clearTile(currentPieceId, move[0], move[1])
+        handleTurnClick()
         removeHighlight()
+        removeListener()
         return false;
       }
-
-      // console.log(move)
     }
   }
 
 
   const renderPiece = (tileX, tileY) => {
-    const obj = allPieces.find(piece => piece.xpos == tileX && piece.ypos == tileY && piece);
+    const obj = allPieces.find(piece => piece.xpos == tileX && piece.ypos == tileY);
     const spec = obj == undefined ? { id: 0, xpos: 0, ypos: 0, piece_name: "dummy piece" } : obj
     // console.log(spec.id);
 
@@ -198,15 +231,33 @@ const Board = () => {
         setValidMoves={setValidMoves}
         setSelectedPiece={setSelectedPiece}
         setCurrentPieceId={setCurrentPieceId}
+        turn={turn}
       />
     )
   }
 
-  const updatePosition = (id, newX, newY) => {
+  const clearTile = (currentPieceId, xpos, ypos) => {
     let updatedPieces = [...allPieces]
+    // console.log('Compare X', piece.xpos, xpos)
+    // console.log('Compare Y', piece.ypos, ypos)
+    // console.log('-')
+    let delId
+    const filteredUpdate = updatedPieces.filter(piece => {
+      if ((piece.xpos === xpos && piece.ypos === ypos) && piece.id !== currentPieceId) {
+        delId = piece.id
+      }
+      return (
+        piece.id !== delId
+      )
+    })
+    updatePosition(currentPieceId, xpos, ypos, filteredUpdate)
+  }
+
+  const updatePosition = (id, newX, newY, arr) => {
+    let updatedPieces = [...arr]
     updatedPieces.map(piece => {
       if (piece.id === id) {
-        console.log('fired')
+        // console.log('fired')
         piece.xpos = newX
         piece.ypos = newY
       }
@@ -214,6 +265,8 @@ const Board = () => {
     })
     setAllPieces(updatedPieces)
   }
+
+
 
 
   useEffect(() => {
@@ -228,8 +281,7 @@ const Board = () => {
         <title>Chess Board</title>
         <meta name="description" content="game-page" />
       </Head>
-      {/* <P1Timer turn={turn} />
-      <P2Timer turn={turn} /> */}
+      <P1Timer turn={turn} />
       <div id='00' className='00'></div>
       <div id='board' className={styles.board}>
         {rows.map((row, rIndex) => {
@@ -251,6 +303,7 @@ const Board = () => {
           )
         })}
       </div>
+      <P2Timer turn={turn} />
     </>
   )
 }

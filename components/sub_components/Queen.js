@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 
 const Queen = (props) => {
-  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId } = props
+  let { id, xpos, ypos, name, setValidMoves, setSelectedPiece, setCurrentPieceId, turn } = props
 
   // xpos = 5
   // ypos = 5
@@ -90,10 +90,15 @@ const Queen = (props) => {
   }
 
   const handleClick = () => {
-    console.log("Current pos Queen:", [xpos, ypos])
-    setValidMoves(pieceMoves())
-    setSelectedPiece([xpos, ypos])
-    setCurrentPieceId(id)
+    if (turn === name.split('-')[0]) {
+      console.log("Current pos Queen:", [xpos, ypos])
+      setCurrentPieceId(id)
+      setSelectedPiece([xpos, ypos])
+      setValidMoves(pieceMoves())
+    }
+    else {
+      console.log('Not your turn')
+    }
   }
 
   return (

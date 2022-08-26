@@ -1,11 +1,13 @@
-$tile-dark-color: #769656;
-$tile-light-color: #eeeed2;
+$tile-dark-color: #779556;
+$tile-light-color: #ebecd0;
 $highlight-dark: red;
-$highlight-light: pink;
+$highlight-light: red;
+$highlight-focus: #f6f669;
 $bevel-color: grey;
 
 .board {
-  border: 8px solid $bevel-color;
+  border: .5em solid $bevel-color;
+  border-radius: .5em;
   display: flex;
   flex-direction: column-reverse;
   flex-wrap: wrap-reverse;
@@ -13,12 +15,12 @@ $bevel-color: grey;
   height: fit-content;
 }
 
-.row{
+.row {
   display: flex;
   // outline: 1px solid black;
 }
 
-.tile{
+.tile {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,20 +35,34 @@ $bevel-color: grey;
   background-color: $tile-dark-color;
 }
 
-.whitePiece{
+.whitePiece {
   color: white;
   font-size: 5rem;
 }
 
-.blackPiece{
+.blackPiece {
   color: black;
   font-size: 5rem;
 }
 
-.highlighted{
-  background-color: $highlight-dark;
+.focused {
+  background-color: $highlight-focus;
 }
 
-.highlightedLight{
-  background-color: $highlight-light;
+.highlighted {
+  // background-color: $highlight-dark;
+  background-image: url('../public/greydot.png');
+  background-size: 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+.highlightedPiece {
+  // background-image: url('../public/greycircle.png');
+  // background-size: 3.5em;
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-color: #b04040;
+  background-color: #DC1c13;
 }

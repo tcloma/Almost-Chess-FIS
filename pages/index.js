@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 // import Image from 'next/image'
-// import styles from '../styles/Home.module.scss'
+import styles from '../styles/Home.module.scss'
 import Layout from '../components/Layout'
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
       </Head>
 
       <Layout>
-        <main>
+        <main className={styles.main}>
           <Link href='/board'>
             <h1>Go to board</h1>
           </Link>
